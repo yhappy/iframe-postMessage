@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Children</title>
+  </head>
+
+  <body>
+    <h2>Children</h2>
+    <input type="button" value="发送" onclick="sendPost()" />
+
+    <div id="msg"></div>
+  </body>
+</html>
+
+<script>
+  window.addEventListener(
+    "message",
+    function (event) {
+      // 监听父窗口发送过来的数据
+      var data = event.data;
+      document.getElementById("msg").append(data);
+      console.log("I am children");
+      console.log(event);
+      // 向父窗口发送信息
+      window.parent.postMessage({ msg: "reaction" }, "*");
+    },
+    false
+  );
+  function sendPost() {
+    window.parent.postMessage({ msg: "child post" }, "*");
+  }
+</script>

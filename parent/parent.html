@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parent</title>
+  </head>
+
+  <body>
+    <h1>Parent</h1>
+    <div id="msg"></div>
+    <div>
+      <textarea id="message"></textarea>
+      <input type="button" value="发送" onclick="sendPost()" />
+    </div>
+    <iframe
+      src="http://192.168.50.52:5501/children.html"
+      id="children"
+      style="width: 500px; height: 500px"
+    >
+    </iframe>
+  </body>
+</html>
+<script>
+  // 通过postMessage实现跨域通信将表单信息发送
+  function sendPost() {
+    // 获取iframe窗口对象
+    var iframeWin = document.getElementById("children").contentWindow;
+    // 向该窗口发送消息
+    iframeWin.postMessage(
+      document.getElementById("message").value,
+      "http://192.168.50.52:5501/"
+    );
+  }
+  // 监听iframe页面的返回
+  window.addEventListener(
+    "message",
+    function (event) {
+      console.log("I am parent");
+      console.log(event, event.data);
+      document.getElementById("msg").append(event.data.msg);
+    },
+    false
+  );
+</script>
