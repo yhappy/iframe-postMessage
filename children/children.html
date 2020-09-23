@@ -18,6 +18,9 @@
   window.addEventListener(
     "message",
     function (event) {
+      console.log(event.origin);
+      // 判断数据来源，避免安全问题
+      if (event.origin !== "http://192.168.50.52:5500") return;
       // 监听父窗口发送过来的数据
       var data = event.data;
       document.getElementById("msg").append(data);
